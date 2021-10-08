@@ -1,15 +1,17 @@
 /* pipeline 변수 설정 */
-def DOCKER_IMAGE_NAME = "jdh/kube-repo"           // 생성하는 Docker image 이름
+def DOCKER_IMAGE_NAME = "sktellecom/kube-repo"           // 생성하는 Docker image 이름
 def DOCKER_IMAGE_TAGS = "batch-visualizer-auth"  // 생성하는 Docker image 태그
 def NAMESPACE = "kube-test"
 def VERSION = "${env.BUILD_NUMBER}"
 def DATE = new Date();
-  
+
+echo "---build start---"
+
 podTemplate(label: 'builder',
             containers: [
                 containerTemplate(name: 'gradle', image: 'gradle:5.6-jdk8', command: 'cat', ttyEnabled: true),
                 containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
-                containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.22.2', command: 'cat', ttyEnabled: true)
+                containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.15.3', command: 'cat', ttyEnabled: true)
             ],
             volumes: [
                 hostPathVolume(mountPath: '/home/gradle/.gradle', hostPath: '/home/admin/k8s/jenkins/.gradle'),
@@ -18,15 +20,18 @@ podTemplate(label: 'builder',
             ]) {
     node('builder') {
         stage('Checkout') {
+             echo "---checkout start---"
              checkout scm   // github으로부터 소스 다운
         }
         stage('Build') {
             container('gradle') {
+            	echo "---gradle build start---"
                 /* 도커 이미지를 활용하여 gradle 빌드를 수행하여 ./build/libs에 jar파일 생성 */
                 sh "gradle -x test build"
             }
         }
         stage('Docker build') {
+        	echo "---Docker build start---"
             container('docker') {
                 withCredentials([usernamePassword(
                     credentialsId: 'docker_hub_auth',
@@ -40,6 +45,7 @@ podTemplate(label: 'builder',
             }
         }
         stage('Run kubectl') {
+        	echo "---Run kubectl---"
             container('kubectl') {
                 withCredentials([usernamePassword(
                     credentialsId: 'docker_hub_auth',
