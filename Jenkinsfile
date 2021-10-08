@@ -21,7 +21,7 @@ podTemplate(label: 'builder',
     node('builder') {
         stage('Checkout') {
              echo "---checkout start---"
-             checkout scm   // github으로부터 소스 다운
+             git branch: 'master', credentialsId: 'c34fcda9-9f42-49a8-80f0-dfea9603bfc4', url: 'https://github.com/JangDaeHyeok/kube-test.git'
         }
         stage('Build') {
             container('gradle') {
