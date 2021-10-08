@@ -9,7 +9,7 @@ echo "---build start---"
 
 podTemplate(label: 'builder',
             containers: [
-                containerTemplate(name: 'gradle', image: 'gradle:5.6-jdk8', command: 'cat', ttyEnabled: true),
+                containerTemplate(name: 'gradle', image: 'gradle:5.6-jdk11', command: 'cat', ttyEnabled: true),
                 containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
                 containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.15.3', command: 'cat', ttyEnabled: true)
             ],
@@ -21,7 +21,7 @@ podTemplate(label: 'builder',
     node('builder') {
         stage('Checkout') {
              echo "---checkout start---"
-             git branch: 'master', credentialsId: 'c34fcda9-9f42-49a8-80f0-dfea9603bfc4', url: 'https://github.com/JangDaeHyeok/kube-test.git'
+             checkout scm
         }
         stage('Build') {
             container('gradle') {
