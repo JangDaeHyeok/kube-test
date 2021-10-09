@@ -29,7 +29,7 @@ podTemplate(label: 'builder',
         stage('Docker build') {
             container('docker') {
                 withCredentials([usernamePassword(
-                    credentialsId: 'docker_hub_auth',
+                    credentialsId: 'docker-hub-id',
                     usernameVariable: 'USERNAME',
                     passwordVariable: 'PASSWORD')]) {
                         /* ./build/libs 생성된 jar파일을 도커파일을 활용하여 도커 빌드를 수행한다 */
@@ -42,7 +42,7 @@ podTemplate(label: 'builder',
         stage('Run kubectl') {
             container('kubectl') {
                 withCredentials([usernamePassword(
-                    credentialsId: 'docker_hub_auth',
+                    credentialsId: 'docker-hub-id',
                     usernameVariable: 'USERNAME',
                     passwordVariable: 'PASSWORD')]) {
                         /* namespace 존재여부 확인. 미존재시 namespace 생성 */
