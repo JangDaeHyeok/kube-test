@@ -7,6 +7,7 @@ spec:
     - name: "8080"
       port: 8082
       targetPort: 8080
+      nodePort: 8080
   selector:
     app: batch-visualizer-auth
   type: NodePort
