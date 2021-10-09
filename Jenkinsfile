@@ -1,5 +1,5 @@
 /* pipeline 변수 설정 */
-def DOCKER_IMAGE_NAME = "twofootdog/project-repo"           // 생성하는 Docker image 이름
+def DOCKER_IMAGE_NAME = "sktellecom/kube-repo"           // 생성하는 Docker image 이름
 def DOCKER_IMAGE_TAGS = "batch-visualizer-auth"  // 생성하는 Docker image 태그
 def NAMESPACE = "ns-project"
 def VERSION = "${env.BUILD_NUMBER}"
