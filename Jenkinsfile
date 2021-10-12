@@ -18,6 +18,7 @@ podTemplate(label: 'builder',
             ]) {
     node('builder') {
         stage('Checkout') {
+        	 sh "ping github.com"
              checkout scm   // gitlab으로부터 소스 다운
         }
         stage('Build') {
