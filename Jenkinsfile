@@ -22,6 +22,8 @@ podTemplate(label: 'builder',
         }
         stage('Build') {
             container('gradle') {
+            	// jvm memory 증가
+            	sh "echo -e 'org.gradle.jvmargs=-Xmx1024m ' >> ~/.gradle/gradle.properties"
                 /* 도커 이미지를 활용하여 gradle 빌드를 수행하여 ./build/libs에 jar파일 생성 */
                 // gradle 데몬 미적용
                 sh "gradle -x test build --no-daemon"
