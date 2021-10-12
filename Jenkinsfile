@@ -18,8 +18,6 @@ podTemplate(label: 'builder',
             ]) {
     node('builder') {
         stage('Checkout') {
-        	 sh "git config --global --unset http.proxy"
-        	 sh "git config --global --unset https.proxy"
              checkout scm   // gitlab으로부터 소스 다운
         }
         stage('Build') {
