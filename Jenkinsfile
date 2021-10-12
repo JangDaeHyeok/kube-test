@@ -22,11 +22,16 @@ podTemplate(label: 'builder',
         }
         stage('Build') {
             container('gradle') {
-            	// jvm memory 증가
+            	/*
+            		jvm memory 증가 & gradle daemon 미사용 설정
+            		gradle 3.0 이후 CI 환경에서는 daemon을 사용하지 않도록 권장하고 있음
+            	*/
             	sh "echo -e '\norg.gradle.jvmargs=-Xmx1024m\norg.gradle.daemon=false' >> ~/.gradle/gradle.properties"
-                /* 도커 이미지를 활용하여 gradle 빌드를 수행하여 ./build/libs에 jar파일 생성 */
-                // gradle 데몬 미적용
-                sh "gradle -x test build --no-daemon --scan --stacktrace --debug"
+                /* 
+                	도커 이미지를 활용하여 gradle 빌드를 수행하여 ./build/libs에 jar파일 생성
+                	데몬 미사용으로 설정
+                */
+                sh "gradle -x test build --no-daemon"
             }
         }
         stage('Docker build') {
