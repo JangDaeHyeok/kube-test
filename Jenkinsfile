@@ -1,5 +1,5 @@
 /* pipeline 변수 설정 */
-def DOCKER_IMAGE_NAME = "sktellecom/kube-repo"           // 생성하는 Docker image 이름
+def DOCKER_IMAGE_NAME = "sktellecom/kube-repo"   // 생성하는 Docker image 이름
 def DOCKER_IMAGE_TAGS = "batch-visualizer-auth"  // 생성하는 Docker image 태그
 def NAMESPACE = "ns-project"
 def VERSION = "${env.BUILD_NUMBER}"
@@ -18,7 +18,7 @@ podTemplate(label: 'builder',
             ]) {
     node('builder') {
         stage('Checkout') {
-             checkout scm   // gitlab으로부터 소스 다운
+             checkout scm   // github로부터 소스 다운
         }
         stage('Build') {
             container('gradle') {
@@ -40,7 +40,7 @@ podTemplate(label: 'builder',
                     credentialsId: 'docker-hub-id',
                     usernameVariable: 'USERNAME',
                     passwordVariable: 'PASSWORD')]) {
-                        /* ./build/libs 생성된 jar파일을 도커파일을 활용하여 도커 빌드를 수행한다 */
+                        /* ./build/libs 생성된 jar파일을 도커파일을 활용하여 도커 빌드를 수행 후 docker hub에 이미지를 푸시한다 */
                         sh "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAGS} ."
                         sh "docker login -u ${USERNAME} -p ${PASSWORD}"
                         sh "docker push ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAGS}"
@@ -63,7 +63,6 @@ podTemplate(label: 'builder',
                             --docker-server=https://index.docker.io/v1/ \
                             --docker-username=${USERNAME} \
                             --docker-password=${PASSWORD} \
-                            --docker-email=ekfrl2815@gmail.com \
                             -n ${NAMESPACE}
                         """
                         /* k8s-deployment.yaml 의 env값을 수정해준다(DATE로). 배포시 수정을 해주지 않으면 변경된 내용이 정상 배포되지 않는다. */
