@@ -32,7 +32,8 @@ podTemplate(label: 'builder',
                 	데몬 미사용으로 설정
                 	build 수행 후에는 sonarqube를 활용하여 소스정적분석을 실행
                 */
-                sh "gradle -x test build sonarqube --no-daemon"
+                // sh "gradle -x test build sonarqube --no-daemon"
+                sh "gradle -x test build --no-daemon"
             }
         }
         stage('Docker build') {
