@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.5.5'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id "org.sonarqube" version "3.3"
 }
 
 group = 'com.example'
@@ -12,11 +13,22 @@ repositories {
 	mavenCentral()
 }
 
+/* sonarqube 설정 추가 */
+sonarqube {
+  properties {
+    property "sonar.projectName", "auth"
+    property "sonar.projectKey", "auth"
+    property "sonar.host.url", "http://192.168.245.130:30002/sonar"
+    property "sonar.login", "b01d5bd2bfaa7807091a6a68f6b8591455607763"
+  }
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
 }
 
 test {

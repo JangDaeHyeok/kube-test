@@ -30,8 +30,9 @@ podTemplate(label: 'builder',
                 /* 
                 	도커 이미지를 활용하여 gradle 빌드를 수행하여 ./build/libs에 jar파일 생성
                 	데몬 미사용으로 설정
+                	build 수행 후에는 sonarqube를 활용하여 소스정적분석을 실행
                 */
-                sh "gradle -x test build --no-daemon"
+                sh "gradle -x test build sonarqube --no-daemon"
             }
         }
         stage('Docker build') {
