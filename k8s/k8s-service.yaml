@@ -23,7 +23,7 @@ spec:
       targetPort: 8080
   selector:
     app: batch-visualizer-auth
-  type: Loadbalancer
+  type: LoadBalancer
 status:
   loadBalancer:
     ingress:
