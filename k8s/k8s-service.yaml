@@ -24,7 +24,3 @@ spec:
   selector:
     app: batch-visualizer-auth
   type: LoadBalancer
-status:
-  loadBalancer:
-    ingress:
-    - ip: 192.168.245.128
