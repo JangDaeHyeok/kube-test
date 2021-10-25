@@ -23,3 +23,8 @@ spec:
               value: 'DATE_STRING'
       imagePullSecrets:
         - name: my-secret
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnvailable: 1
+    type: RollingUpdate
