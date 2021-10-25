@@ -23,5 +23,10 @@ spec:
       targetPort: 8080
   selector:
     app: batch-visualizer-auth
-  clusterIP: 10.107.154.31
+  clusterIP: 10.107.154.20
   type: LoadBalancer
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnvailable: 1
+    type: RollingUpdate
