@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: batch-visualizer-auth
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: batch-visualizer-auth
