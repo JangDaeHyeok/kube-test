@@ -9,19 +9,39 @@ group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+ext {
+    slf4jVersion = '1.7.5'
+    logbackVersion = '1.0.13'
+}
+
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+	all.collect { configuration ->
+        configuration.exclude group: 'commons-logging', module: 'commons-logging'
+        configuration.exclude group: 'log4j', module: 'log4j'
+        configuration.exclude group: 'org.apache.logging.log4j'
+        configuration.exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        configuration.exclude group: 'org.slf4j', module: 'slf4j-jcl'
+        configuration.exclude group: 'org.slf4j', module: 'slf4j-jdk14'
+    }
+}
+
+
 repositories {
 	mavenCentral()
 }
 
-/* sonarqube 설정 추가 */
-sonarqube {
-  properties {
-    property "sonar.projectName", "auth"
-    property "sonar.projectKey", "auth"
-    property "sonar.host.url", "http://192.168.245.130:30002/sonar"
-    property "sonar.login", "b01d5bd2bfaa7807091a6a68f6b8591455607763"
-  }
-}
+List loggers = [
+    "org.slf4j:slf4j-api:${slf4jVersion}",
+    "org.slf4j:jcl-over-slf4j:${slf4jVersion}",
+    "org.slf4j:log4j-over-slf4j:${slf4jVersion}",
+    "org.slf4j:jul-to-slf4j:${slf4jVersion}",
+    "ch.qos.logback:logback-core:${logbackVersion}",
+    "ch.qos.logback:logback-classic:${logbackVersion}"
+]
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
