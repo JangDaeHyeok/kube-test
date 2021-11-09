@@ -4,3 +4,7 @@ spring:
   mvc:
     static-path-pattern: /static/**
     
+logging:
+  level:
+    web: info
+    root: info
